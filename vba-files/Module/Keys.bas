@@ -4,7 +4,7 @@ Option Explicit
 Sub bindKeys()
     Application.ScreenUpdating = False
     Application.OnKey "{LEFT}", "przesuniecieWLewo"
-    Application.OnKey "{UP}", "obrot"
+    Application.OnKey "{UP}", "obrotKlocka"
     Application.OnKey "{DOWN}", "przesuniecieWDol"
     Application.OnKey "{RIGHT}", "przesuniecieWPrawo"
     Application.OnKey "{ESC}", "StopGame"
@@ -21,7 +21,7 @@ Private Sub przesuniecieWLewo()
     End If
 End Sub
 
-Private Sub obrot()
+Private Sub obrotKlocka()
     Dim delPozFigury As Byte
 
     If gameStarted = True Then
