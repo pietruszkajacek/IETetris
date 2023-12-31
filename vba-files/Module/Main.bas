@@ -3,223 +3,223 @@ Option Explicit
 
 Public speed As Integer
 Public gameStarted As Boolean
-Public koniecGry As Boolean
-Public Opoznienie As Byte
+Public endGame As Boolean
+Public delay As Byte
 
-Public xFigury As Integer, yFigury As Integer
-Public nrFigury As Byte, nrPozFigury As Byte
-Public nrNastFigury As Byte, nrNastPozFigury As Byte
+Public tetrominoX As Integer, tetrominoY As Integer
+Public tetrominoNr As Byte, tetrominoRot As Byte
+Public nextTetrominoNr As Byte, nextTetrominoRot As Byte
 
-Public tmpx As Integer, tmpy As Integer, tmppoz As Integer, tmpnrfig As Integer
-Public nowyCykl As Boolean
-Public wierszePelne As Integer
+Public prevXTetro As Integer, prevYTetro As Integer, prevTetroRot As Integer, prevTetroNr As Integer
+Public newCycle As Boolean
+Public completeLines As Integer
 
-Function liczbaLosowa(ByVal koniec As Byte, ByVal poczatek As Byte) As Integer
+Function randomNumber(ByVal upperbound As Integer, ByVal lowerbound As Integer) As Integer
     Randomize
-    liczbaLosowa = poczatek + Round(Rnd * (koniec - 1), 0)
+    randomNumber = Int((upperbound - lowerbound + 1) * Rnd + lowerbound) 'start + Round(Rnd * (end - 1), 0)
 End Function
 
-Sub ResetPlanszy()
-    Dim w, k As Byte
-    For w = 1 To WYS_PLANSZY
-        For k = 1 To SZER_PLANSZY
-            Plansza(w, k) = KOLOR_BEZKOL
-        Next k
-    Next w
+Sub resetTetrion()
+    Dim r, c As Byte
+    For r = 1 To HEIGHT_TETRION
+        For c = 1 To WIDTH_TETRION
+            Tetrion(r, c) = COLLISION_FREE_COLOR
+        Next c
+    Next r
 End Sub
 
-Sub rysujFigureNaPlanszy()
-    Dim w, k As Integer
-    Dim figura As FiguraT
-    figura = Tetromino(nrFigury).Obroty(nrPozFigury)
+Sub drawTetrominoOnTetrion()
+    Dim r, c As Integer
+    Dim tetromino As TetrominoT
+    tetromino = Tetrominoes(tetrominoNr).Rotations(tetrominoRot)
 
-    For w = 1 To figura.wysFigury
-        For k = 1 To figura.szerFigury
-            If figura.Matrix(w, k) = 1 Then
-                Plansza(w + yFigury - 1, k + xFigury - 1) = figura.kolor
+    For r = 1 To tetromino.height
+        For c = 1 To tetromino.width
+            If tetromino.matrix(r, c) = 1 Then
+                Tetrion(r + tetrominoY - 1, c + tetrominoX - 1) = tetromino.color
             End If
-        Next k
-    Next w
+        Next c
+    Next r
 End Sub
 
-Sub rysujFigureNaArkuszu(ByVal nrFig As Integer, ByVal pozFig As Integer, _
-                         ByVal kolor As Long, ByVal yFig As Integer, ByVal xFig As Integer)
-    Dim w, k As Integer
-    Dim figura As FiguraT
-    figura = Tetromino(nrFig).Obroty(pozFig)
+Sub drawTetrominoOnSheet(ByVal tetroNr As Integer, ByVal tetroRot As Integer, _
+                         ByVal color As Long, ByVal tetroY As Integer, ByVal tetroX As Integer)
+    Dim r, c As Integer
+    Dim tetromino As TetrominoT
+    tetromino = Tetrominoes(tetroNr).Rotations(tetroRot)
 
-    For w = 1 To figura.wysFigury
-        For k = 1 To figura.szerFigury
-            If figura.Matrix(w, k) = 1 Then
-                Cells(w + yFig - 1, xFig + k - 1).Interior.Color = kolor
+    For r = 1 To tetromino.height
+        For c = 1 To tetromino.width
+            If tetromino.matrix(r, c) = 1 Then
+                Cells(r + tetroY - 1, tetroX + c - 1).Interior.Color = color
             End If
-        Next k
-    Next w
+        Next c
+    Next r
 End Sub
 
-Sub rysujFigureNaArkuszuWzgPlanszy(ByVal nrFig As Integer, ByVal pozFig As Integer, _
-                                   ByVal kolor As Long, ByVal yFig As Integer, ByVal xFig As Integer)
-    rysujFigureNaArkuszu nrFig, pozFig, kolor, Y_PLANSZY + yFig - 1, X_PLANSZY + xFig - 1
+Sub drawTetroOnSheetRelTetrion(ByVal tetroNr As Integer, ByVal tetroRot As Integer, _
+                                   ByVal color As Long, ByVal tetroY As Integer, ByVal tetroX As Integer)
+    drawTetrominoOnSheet tetroNr, tetroRot, color, Y_TETRION + tetroY - 1, X_TETRION + tetroX - 1
 End Sub
 
-Sub RysujProstokatNaArkuszu(ByVal szer As Integer, ByVal wys As Integer, _
-                            ByVal y As Integer, ByVal x As Integer, ByVal kolor As Long)
-    Dim w, k As Byte
-    For w = 1 To wys
-        For k = 1 To szer
-            Cells(y + w - 1, x + k - 1).Interior.Color = kolor
-        Next k
-    Next w
+Sub drawRectOnSheet(ByVal width As Integer, ByVal height As Integer, _
+                            ByVal y As Integer, ByVal x As Integer, ByVal color As Long)
+    Dim r, c As Byte
+    For r = 1 To height
+        For c = 1 To width
+            Cells(y + r - 1, x + c - 1).Interior.Color = color
+        Next c
+    Next r
 End Sub
 
-Sub RysujTloPlanszy()
-    RysujProstokatNaArkuszu SZER_PLANSZY, WYS_PLANSZY, Y_PLANSZY, X_PLANSZY, KOLOR_BEZKOL
+Sub drawBackgroundTetrion()
+    drawRectOnSheet WIDTH_TETRION, HEIGHT_TETRION, Y_TETRION, X_TETRION, COLLISION_FREE_COLOR
 End Sub
 
-Sub RysujTloNastFigury()
-    RysujProstokatNaArkuszu 4, 4, Y_PLANSZY, X_PLANSZY + SZER_PLANSZY + 1, KOLOR_BEZKOL
+Sub drawBackgroundNextTetro()
+    drawRectOnSheet 4, 4, Y_TETRION, X_TETRION + WIDTH_TETRION + 1, COLLISION_FREE_COLOR
 End Sub
 
-Sub RysujPlansze(ByVal x As Byte, ByVal y As Byte)
-    Dim w, k As Integer
+Sub drawTetrionOnSheet(ByVal x As Byte, ByVal y As Byte)
+    Dim r, c As Integer
     'Application.ScreenUpdating = False
-    For w = 1 To WYS_PLANSZY
-        For k = 1 To SZER_PLANSZY
-            Cells(Y_PLANSZY + w - 1, X_PLANSZY + k - 1).Interior.Color = Plansza(w, k)
-        Next k
-    Next w
+    For r = 1 To HEIGHT_TETRION
+        For c = 1 To WIDTH_TETRION
+            Cells(Y_TETRION + r - 1, X_TETRION + c - 1).Interior.Color = Tetrion(r, c)
+        Next c
+    Next r
     'Application.ScreenUpdating = True
 End Sub
 
-Function CzyKolizja(ByVal xDelFigury As Integer, ByVal yDelFigury As Integer, pozDelFigury)
-    Dim xPlanszy, yPlanszy As Integer
-    Dim figura As FiguraT
-    Dim y, x As Integer
-    figura = Tetromino(nrFigury).Obroty(pozDelFigury)
+Function checkCollision(ByVal tetroX As Integer, ByVal tetroY As Integer, tetroRot)
+    Dim tetrionX, tetrionY As Integer
+    Dim tetromino As TetrominoT
+    Dim r, c As Integer
+    tetromino = Tetrominoes(tetrominoNr).Rotations(tetroRot)
     
-    For y = 1 To figura.wysFigury
-        For x = 1 To figura.szerFigury
-            If figura.Matrix(y, x) = 1 Then
-                xPlanszy = xDelFigury + x - 1
-                yPlanszy = yDelFigury + y - 1
-                If xPlanszy > SZER_PLANSZY Or yPlanszy > WYS_PLANSZY Or xPlanszy < 1 Then
-                    CzyKolizja = True
+    For r = 1 To tetromino.height
+        For c = 1 To tetromino.width
+            If tetromino.matrix(r, c) = 1 Then
+                tetrionX = tetroX + c - 1
+                tetrionY = tetroY + r - 1
+                If tetrionX > WIDTH_TETRION Or tetrionY > HEIGHT_TETRION Or tetrionX < 1 Then
+                    checkCollision = True
                     Exit Function
-                ElseIf Plansza(yPlanszy, xPlanszy) <> KOLOR_BEZKOL Then
-                    CzyKolizja = True
+                ElseIf Tetrion(tetrionY, tetrionX) <> COLLISION_FREE_COLOR Then
+                    checkCollision = True
                     Exit Function
                 End If
             End If
-        Next x
-    Next y
-    CzyKolizja = False
+        Next c
+    Next r
+    checkCollision = False
 End Function
 
-Sub Info(ByVal w As Byte, ByVal k As Byte)
-    Cells(w, k) = xFigury
-    Cells(w, k + 1) = yFigury
-    Cells(w + 1, k) = nrFigury
-    Cells(w + 1, k + 1) = nrPozFigury
-    Cells(w + 2, k) = Opoznienie
-    Cells(w + 2, k + 1) = wierszePelne
+Sub Info(ByVal r As Byte, ByVal c As Byte)
+    Cells(r, c) = tetrominoX
+    Cells(r, c + 1) = tetrominoY
+    Cells(r + 1, c) = tetrominoNr
+    Cells(r + 1, c + 1) = tetrominoRot
+    Cells(r + 2, c) = delay
+    Cells(r + 2, c + 1) = completeLines
 End Sub
 
-Function czyWierszPelny(ByVal w As Byte)
-    Dim k As Byte, wystapilKolorBezkol As Boolean
-    wystapilKolorBezkol = False
+Function completeLine(ByVal r As Byte)
+    Dim c As Byte, collisionFreeColor As Boolean
+    collisionFreeColor = False
 
-    For k = 1 To SZER_PLANSZY
-        If Plansza(w, k) = KOLOR_BEZKOL Then
-            wystapilKolorBezkol = True
+    For c = 1 To WIDTH_TETRION
+        If Tetrion(r, c) = COLLISION_FREE_COLOR Then
+            collisionFreeColor = True
             Exit For
         End If
-    Next k
+    Next c
     
-    czyWierszPelny = Not wystapilKolorBezkol
+    completeLine = Not collisionFreeColor
 End Function
 
-Sub redukujPelneWiersze()
-    Dim wz As Byte, wd As Byte, k As Byte
-    wz = WYS_PLANSZY
-    wd = WYS_PLANSZY
+Sub delCompleteLines()
+    Dim rs As Byte, rd As Byte, c As Byte
+    rs = HEIGHT_TETRION
+    rd = HEIGHT_TETRION
     
     Do
-        If Not czyWierszPelny(wz) Then
-            For k = 1 To SZER_PLANSZY
-                Plansza(wd, k) = Plansza(wz, k)
-            Next k
-            wz = wz - 1
-            wd = wd - 1
+        If Not completeLine(rs) Then
+            For c = 1 To WIDTH_TETRION
+                Tetrion(rd, c) = Tetrion(rs, c)
+            Next c
+            rs = rs - 1
+            rd = rd - 1
         Else
-            wierszePelne = wierszePelne + 1
-            wz = wz - 1
+            completeLines = completeLines + 1
+            rs = rs - 1
         End If
-    Loop Until wz = 1
+    Loop Until rs = 1
 End Sub
 
-Sub aktualizujStanGry()
-    If Not CzyKolizja(xFigury, yFigury + 1, nrPozFigury) Then
-        yFigury = yFigury + 1
+Sub updateGame()
+    If Not checkCollision(tetrominoX, tetrominoY + 1, tetrominoRot) Then
+        tetrominoY = tetrominoY + 1
     Else
-        rysujFigureNaPlanszy
-        redukujPelneWiersze
-        RysujPlansze 1, 1
+        drawTetrominoOnTetrion
+        delCompleteLines
+        drawTetrionOnSheet 1, 1
 
-        nrFigury = nrNastFigury
-        nrPozFigury = nrNastPozFigury
+        tetrominoNr = nextTetrominoNr
+        tetrominoRot = nextTetrominoRot
 
-        nrNastFigury = liczbaLosowa(LICZBA_FIGUR, 1)
-        nrNastPozFigury = liczbaLosowa(4, 1)
+        nextTetrominoNr = randomNumber(NUMBER_OF_TETROMINOES, 1)
+        nextTetrominoRot = randomNumber(4, 1)
 
-        xFigury = 1
-        yFigury = 1
-        nowyCykl = True
+        tetrominoX = 1
+        tetrominoY = 1
+        newCycle = True
         
-        If CzyKolizja(xFigury, yFigury, nrPozFigury) Then
-            koniecGry = True
+        If checkCollision(tetrominoX, tetrominoY, tetrominoRot) Then
+            endGame = True
         End If
     End If
 End Sub
 
-Sub rysujNastepnaFigure(ByVal y As Integer, ByVal x As Integer)
-    rysujFigureNaArkuszu nrFigury, nrPozFigury, KOLOR_BEZKOL, y, x
-    rysujFigureNaArkuszu nrNastFigury, nrNastPozFigury, Tetromino(nrNastFigury).Obroty(nrNastPozFigury).kolor, _
+Sub drawNextTetromino(ByVal y As Integer, ByVal x As Integer)
+    drawTetrominoOnSheet tetrominoNr, tetrominoRot, COLLISION_FREE_COLOR, y, x
+    drawTetrominoOnSheet nextTetrominoNr, nextTetrominoRot, Tetrominoes(nextTetrominoNr).Rotations(nextTetrominoRot).color, _
         y, x
 End Sub
 
-Sub Petla()
-    Dim kolor As Long
+Sub mainLoop()
+    Dim color As Long
 
-    If gameStarted And Not koniecGry Then
-        If Opoznienie = 10 Then
-            aktualizujStanGry
-            Opoznienie = 0
+    If gameStarted And Not endGame Then
+        If delay = 10 Then
+            updateGame
+            delay = 0
         End If
 
-        If nowyCykl Then
-            If koniecGry Then
-                kolor = RGB(90, 90, 90)
+        If newCycle Then
+            If endGame Then
+                color = RGB(90, 90, 90)
             Else
-                kolor = Tetromino(nrFigury).Obroty(nrPozFigury).kolor
+                color = Tetrominoes(tetrominoNr).Rotations(tetrominoRot).color
             End If
 
-            rysujFigureNaArkuszuWzgPlanszy nrFigury, nrPozFigury, kolor, yFigury, xFigury
+            drawTetroOnSheetRelTetrion tetrominoNr, tetrominoRot, color, tetrominoY, tetrominoX
             
-            rysujNastepnaFigure Y_PLANSZY, X_PLANSZY + SZER_PLANSZY + 1
+            drawNextTetromino Y_TETRION, X_TETRION + WIDTH_TETRION + 1
 
-            nowyCykl = False
-        ElseIf tmpx <> xFigury Or tmpy <> yFigury Or tmppoz <> nrPozFigury Or tmpnrfig <> nrFigury Then
-            rysujFigureNaArkuszuWzgPlanszy tmpnrfig, tmppoz, KOLOR_BEZKOL, tmpy, tmpx
-            rysujFigureNaArkuszuWzgPlanszy nrFigury, nrPozFigury, Tetromino(nrFigury).Obroty(nrPozFigury).kolor, yFigury, xFigury
+            newCycle = False
+        ElseIf prevXTetro <> tetrominoX Or prevYTetro <> tetrominoY Or prevTetroRot <> tetrominoRot Or prevTetroNr <> tetrominoNr Then
+            drawTetroOnSheetRelTetrion prevTetroNr, prevTetroRot, COLLISION_FREE_COLOR, prevYTetro, prevXTetro
+            drawTetroOnSheetRelTetrion tetrominoNr, tetrominoRot, Tetrominoes(tetrominoNr).Rotations(tetrominoRot).color, tetrominoY, tetrominoX
         End If
 
-        tmpx = xFigury
-        tmpy = yFigury
-        tmppoz = nrPozFigury
-        tmpnrfig = nrFigury
+        prevXTetro = tetrominoX
+        prevYTetro = tetrominoY
+        prevTetroRot = tetrominoRot
+        prevTetroNr = tetrominoNr
 
         Info 22, 1
-        Opoznienie = Opoznienie + 1
+        delay = delay + 1
     Else
         StopTimer
         MsgBox "Koniec GRY!"
@@ -227,27 +227,27 @@ Sub Petla()
 End Sub
 
 Sub StartGame()
-    initTetromino
-    ResetPlanszy
-    RysujTloPlanszy
-    RysujTloNastFigury
+    initTetrominoes
+    resetTetrion
+    drawBackgroundTetrion
+    drawBackgroundNextTetro
 
     speed = 50
     Keys.bindKeys
-    yFigury = 1
-    xFigury = 1
-    Opoznienie = 0
-    nrFigury = liczbaLosowa(LICZBA_FIGUR, 1)
-    nrPozFigury = liczbaLosowa(4, 1)
+    tetrominoY = 1
+    tetrominoX = 1
+    delay = 0
+    tetrominoNr = randomNumber(NUMBER_OF_TETROMINOES, 1)
+    tetrominoRot = randomNumber(4, 1)
 
-    nrNastFigury = liczbaLosowa(LICZBA_FIGUR, 1)
-    nrNastPozFigury = liczbaLosowa(4, 1)
+    nextTetrominoNr = randomNumber(NUMBER_OF_TETROMINOES, 1)
+    nextTetrominoRot = randomNumber(4, 1)
 
-    nowyCykl = True
-    wierszePelne = 0
+    newCycle = True
+    completeLines = 0
 
     'If TimerID = 0 Then
-        koniecGry = False
+        endGame = False
         gameStarted = True
         StartTimer
     'End If

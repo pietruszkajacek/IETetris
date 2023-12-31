@@ -35,7 +35,7 @@ End Sub
 
 Sub TimerEvent()
   On Error Resume Next
-  If gameStarted = True Then Main.Petla
+  If gameStarted = True Then Main.mainLoop
   'Exit Sub
 End Sub
 

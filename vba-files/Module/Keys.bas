@@ -3,54 +3,54 @@ Option Explicit
 
 Sub bindKeys()
     Application.ScreenUpdating = False
-    Application.OnKey "{LEFT}", "przesuniecieWLewo"
-    Application.OnKey "{UP}", "obrotKlocka"
-    Application.OnKey "{DOWN}", "przesuniecieWDol"
-    Application.OnKey "{RIGHT}", "przesuniecieWPrawo"
+    Application.OnKey "{LEFT}", "tetroLeft"
+    Application.OnKey "{UP}", "tetroRotate"
+    Application.OnKey "{DOWN}", "tetroDown"
+    Application.OnKey "{RIGHT}", "tetroRight"
     Application.OnKey "{ESC}", "StopGame"
     Application.ScreenUpdating = True
     Application.Calculation = xlCalculationManual
     Application.EnableEvents = False
 End Sub
 
-Private Sub przesuniecieWLewo()
+Private Sub tetroLeft()
     If gameStarted = True Then
-        If Not CzyKolizja(xFigury - 1, yFigury, nrPozFigury) Then
-            xFigury = xFigury - 1
+        If Not checkCollision(tetrominoX - 1, tetrominoY, tetrominoRot) Then
+            tetrominoX = tetrominoX - 1
         End If
     End If
 End Sub
 
-Private Sub obrotKlocka()
-    Dim delPozFigury As Byte
+Private Sub tetroRotate()
+    Dim tetroRot As Byte
 
     If gameStarted = True Then
-        If nrPozFigury + 1 <= 4 Then
-            delPozFigury = nrPozFigury + 1
+        If tetrominoRot + 1 <= 4 Then
+            tetroRot = tetrominoRot + 1
         Else
-            delPozFigury = 1
+            tetroRot = 1
         End If
 
-        If Not CzyKolizja(xFigury, yFigury, delPozFigury) Then
-            nrPozFigury = delPozFigury
-        End If
-    End If
-End Sub
-
-Private Sub przesuniecieWPrawo()
-    If gameStarted = True Then
-        If Not CzyKolizja(xFigury + 1, yFigury, nrPozFigury) Then
-            xFigury = xFigury + 1
+        If Not checkCollision(tetrominoX, tetrominoY, tetroRot) Then
+            tetrominoRot = tetroRot
         End If
     End If
 End Sub
 
-Private Sub przesuniecieWDol()
+Private Sub tetroRight()
     If gameStarted = True Then
-        While Not CzyKolizja(xFigury, yFigury + 1, nrPozFigury)
-            yFigury = yFigury + 1
+        If Not checkCollision(tetrominoX + 1, tetrominoY, tetrominoRot) Then
+            tetrominoX = tetrominoX + 1
+        End If
+    End If
+End Sub
+
+Private Sub tetroDown()
+    If gameStarted = True Then
+        While Not checkCollision(tetrominoX, tetrominoY + 1, tetrominoRot)
+            tetrominoY = tetrominoY + 1
         Wend
-        Opoznienie = 0
+        delay = 0
     End If
 End Sub
 
