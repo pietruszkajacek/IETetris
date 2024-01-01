@@ -14,6 +14,20 @@ Public prevXTetro As Integer, prevYTetro As Integer, prevTetroRot As Integer, pr
 Public newCycle As Boolean
 Public completeLines As Integer
 
+Public level As Byte
+Public tetroCounter as Long
+
+Public Const MAX_LEVEL = 5
+Public delayLevels(1 To MAX_LEVEL) As Integer
+
+Sub initDelayLevels()
+    delayLevels(1) = 10
+    delayLevels(2) = 8
+    delayLevels(3) = 6
+    delayLevels(4) = 4
+    delayLevels(5) = 2
+End Sub
+
 Function randomNumber(ByVal upperbound As Integer, ByVal lowerbound As Integer) As Integer
     Randomize
     randomNumber = Int((upperbound - lowerbound + 1) * Rnd + lowerbound) 'start + Round(Rnd * (end - 1), 0)
@@ -36,14 +50,14 @@ Sub drawTetrominoOnTetrion()
     For r = 1 To tetromino.height
         For c = 1 To tetromino.width
             If tetromino.matrix(r, c) = 1 Then
-                Tetrion(r + tetrominoY - 1, c + tetrominoX - 1) = tetromino.color
+                Tetrion(r + tetrominoY - 1, c + tetrominoX - 1) = tetromino.Color
             End If
         Next c
     Next r
 End Sub
 
 Sub drawTetrominoOnSheet(ByVal tetroNr As Integer, ByVal tetroRot As Integer, _
-                         ByVal color As Long, ByVal tetroY As Integer, ByVal tetroX As Integer)
+                         ByVal Color As Long, ByVal tetroY As Integer, ByVal tetroX As Integer)
     Dim r, c As Integer
     Dim tetromino As TetrominoT
     tetromino = Tetrominoes(tetroNr).Rotations(tetroRot)
@@ -51,23 +65,23 @@ Sub drawTetrominoOnSheet(ByVal tetroNr As Integer, ByVal tetroRot As Integer, _
     For r = 1 To tetromino.height
         For c = 1 To tetromino.width
             If tetromino.matrix(r, c) = 1 Then
-                Cells(r + tetroY - 1, tetroX + c - 1).Interior.Color = color
+                Cells(r + tetroY - 1, tetroX + c - 1).Interior.Color = Color
             End If
         Next c
     Next r
 End Sub
 
 Sub drawTetroOnSheetRelTetrion(ByVal tetroNr As Integer, ByVal tetroRot As Integer, _
-                                   ByVal color As Long, ByVal tetroY As Integer, ByVal tetroX As Integer)
-    drawTetrominoOnSheet tetroNr, tetroRot, color, Y_TETRION + tetroY - 1, X_TETRION + tetroX - 1
+                                   ByVal Color As Long, ByVal tetroY As Integer, ByVal tetroX As Integer)
+    drawTetrominoOnSheet tetroNr, tetroRot, Color, Y_TETRION + tetroY - 1, X_TETRION + tetroX - 1
 End Sub
 
 Sub drawRectOnSheet(ByVal width As Integer, ByVal height As Integer, _
-                            ByVal y As Integer, ByVal x As Integer, ByVal color As Long)
+                            ByVal y As Integer, ByVal x As Integer, ByVal Color As Long)
     Dim r, c As Byte
     For r = 1 To height
         For c = 1 To width
-            Cells(y + r - 1, x + c - 1).Interior.Color = color
+            Cells(y + r - 1, x + c - 1).Interior.Color = Color
         Next c
     Next r
 End Sub
@@ -122,6 +136,9 @@ Sub Info(ByVal r As Byte, ByVal c As Byte)
     Cells(r + 1, c + 1) = tetrominoRot
     Cells(r + 2, c) = delay
     Cells(r + 2, c + 1) = completeLines
+    Cells(r + 3, c) = level
+    Cells(r + 3, c + 1) = delayLevels(level)
+    Cells(r + 4, c) = tetroCounter
 End Sub
 
 Function completeLine(ByVal r As Byte)
@@ -174,7 +191,21 @@ Sub updateGame()
         tetrominoX = 1
         tetrominoY = 1
         newCycle = True
-        
+        tetroCounter = tetroCounter + 1
+
+        Select Case tetroCounter
+            Case 1 To 29
+                level = 1
+            Case 30 To 79
+                level = 2
+            Case 80 To 129
+                level = 3
+            Case 130 To 179
+                level = 4
+            Case Else
+                level = 5
+        End Select
+
         If checkCollision(tetrominoX, tetrominoY, tetrominoRot) Then
             endGame = True
         End If
@@ -183,34 +214,34 @@ End Sub
 
 Sub drawNextTetromino(ByVal y As Integer, ByVal x As Integer)
     drawTetrominoOnSheet tetrominoNr, tetrominoRot, COLLISION_FREE_COLOR, y, x
-    drawTetrominoOnSheet nextTetrominoNr, nextTetrominoRot, Tetrominoes(nextTetrominoNr).Rotations(nextTetrominoRot).color, _
+    drawTetrominoOnSheet nextTetrominoNr, nextTetrominoRot, Tetrominoes(nextTetrominoNr).Rotations(nextTetrominoRot).Color, _
         y, x
 End Sub
 
 Sub mainLoop()
-    Dim color As Long
+    Dim Color As Long
 
     If gameStarted And Not endGame Then
-        If delay = 10 Then
+        If delay = delayLevels(level) Then
             updateGame
             delay = 0
         End If
 
         If newCycle Then
             If endGame Then
-                color = RGB(90, 90, 90)
+                Color = RGB(90, 90, 90)
             Else
-                color = Tetrominoes(tetrominoNr).Rotations(tetrominoRot).color
+                Color = Tetrominoes(tetrominoNr).Rotations(tetrominoRot).Color
             End If
 
-            drawTetroOnSheetRelTetrion tetrominoNr, tetrominoRot, color, tetrominoY, tetrominoX
+            drawTetroOnSheetRelTetrion tetrominoNr, tetrominoRot, Color, tetrominoY, tetrominoX
             
             drawNextTetromino Y_TETRION, X_TETRION + WIDTH_TETRION + 1
 
             newCycle = False
         ElseIf prevXTetro <> tetrominoX Or prevYTetro <> tetrominoY Or prevTetroRot <> tetrominoRot Or prevTetroNr <> tetrominoNr Then
             drawTetroOnSheetRelTetrion prevTetroNr, prevTetroRot, COLLISION_FREE_COLOR, prevYTetro, prevXTetro
-            drawTetroOnSheetRelTetrion tetrominoNr, tetrominoRot, Tetrominoes(tetrominoNr).Rotations(tetrominoRot).color, tetrominoY, tetrominoX
+            drawTetroOnSheetRelTetrion tetrominoNr, tetrominoRot, Tetrominoes(tetrominoNr).Rotations(tetrominoRot).Color, tetrominoY, tetrominoX
         End If
 
         prevXTetro = tetrominoX
@@ -228,11 +259,15 @@ End Sub
 
 Sub StartGame()
     initTetrominoes
+    initDelayLevels
     resetTetrion
     drawBackgroundTetrion
     drawBackgroundNextTetro
 
     speed = 50
+    level = 1
+    tetroCounter = 1
+
     Keys.bindKeys
     tetrominoY = 1
     tetrominoX = 1

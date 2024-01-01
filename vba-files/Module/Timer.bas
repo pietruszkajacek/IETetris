@@ -7,21 +7,33 @@ Option Explicit
       ByVal nIDEvent As LongLong, _
       ByVal uElapse As LongLong, _
       ByVal lpTimerFunc As LongLong) As LongLong
+  
   Public Declare PtrSafe Function KillTimer Lib "User32" ( _
       ByVal hwnd As LongLong, _
       ByVal nIDEvent As LongLong) As LongLong
+  
   Public TimerID As LongLong
+
+  Public Declare PtrSafe Function GetSystemMetrics Lib "User32" ( _
+      ByVal nIndex As LongLong) As LongLong
+
 #Else
   Public Declare PtrSafe Function SetTimer Lib "User32" ( _
       ByVal hwnd As Long, _
       ByVal nIDEvent As Long, _
       ByVal uElapse As Long, _
       ByVal lpTimerFunc As Long) As Long
+
   Public Declare PtrSafe Function KillTimer Lib "User32" ( _
       ByVal hwnd As Long, _
       ByVal nIDEvent As Long) As Long
+
   Public TimerID As Long
+
+  Public Declare Function GetSystemMetrics Lib "User32" ( _
+      ByVal nIndex As Long) As Long  
 #End If
+
 
 Sub StartTimer()
   If gameStarted = True Then
