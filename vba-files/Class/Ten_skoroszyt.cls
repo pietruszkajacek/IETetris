@@ -9,8 +9,14 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = True
 
 Private Sub Workbook_Open()
-    Application.WindowState = xlMaximized
-    Application.DisplayFullScreen = True
-    'MsgBox "TEST"
+    Application.ScreenUpdating = False
+    ActiveWindow.Visible = False
+    SplashUserForm.show
+    'Application.WindowState = xlMaximized
+    'Application.DisplayFullScreen = True
+    Windows(ThisWorkbook.Name).Visible = True
+    Application.ScreenUpdating = True
+
+    MainUserForm.show
 End Sub
 

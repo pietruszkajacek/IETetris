@@ -15,39 +15,39 @@ End Sub
 
 Private Sub tetroLeft()
     If gameStarted = True Then
-        If Not checkCollision(tetrominoX - 1, tetrominoY, tetrominoRot) Then
-            tetrominoX = tetrominoX - 1
+        If Not checkCollision(TetrominoX - 1, tetrominoY, tetrominoRot) Then
+            TetrominoX = TetrominoX - 1
         End If
     End If
 End Sub
 
 Private Sub tetroRotate()
-    Dim tetroRot As Byte
+    Dim TetroRot As Byte
 
     If gameStarted = True Then
         If tetrominoRot + 1 <= 4 Then
-            tetroRot = tetrominoRot + 1
+            TetroRot = tetrominoRot + 1
         Else
-            tetroRot = 1
+            TetroRot = 1
         End If
 
-        If Not checkCollision(tetrominoX, tetrominoY, tetroRot) Then
-            tetrominoRot = tetroRot
+        If Not checkCollision(TetrominoX, tetrominoY, TetroRot) Then
+            tetrominoRot = TetroRot
         End If
     End If
 End Sub
 
 Private Sub tetroRight()
     If gameStarted = True Then
-        If Not checkCollision(tetrominoX + 1, tetrominoY, tetrominoRot) Then
-            tetrominoX = tetrominoX + 1
+        If Not checkCollision(TetrominoX + 1, tetrominoY, tetrominoRot) Then
+            TetrominoX = TetrominoX + 1
         End If
     End If
 End Sub
 
 Private Sub tetroDown()
     If gameStarted = True Then
-        While Not checkCollision(tetrominoX, tetrominoY + 1, tetrominoRot)
+        While Not checkCollision(TetrominoX, tetrominoY + 1, tetrominoRot)
             tetrominoY = tetrominoY + 1
         Wend
         delay = 0

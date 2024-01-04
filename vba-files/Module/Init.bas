@@ -5,7 +5,7 @@ Type TetrominoT
     matrix(1 To 4, 1 To 4) As Byte
     width As Byte
     height As Byte
-    Color As Long
+    color As Long
 End Type
 
 Type TetrominoRotationsT
@@ -54,7 +54,7 @@ Sub initTetrominoes()
         .matrix(2, 2) = 1
         .width = 4
         .height = 4
-        .Color = RGB(255, 255, 0)
+        .color = RGB(255, 255, 0)
     End With
         
     With Oobr
@@ -71,7 +71,7 @@ Sub initTetrominoes()
         .matrix(4, 2) = 1
         .width = 4
         .height = 4
-        .Color = RGB(0, 255, 255)
+        .color = RGB(0, 255, 255)
     End With
 
     With I90
@@ -81,7 +81,7 @@ Sub initTetrominoes()
         .matrix(3, 4) = 1
         .width = 4
         .height = 4
-        .Color = RGB(0, 255, 255)
+        .color = RGB(0, 255, 255)
     End With
 
     With I270
@@ -91,7 +91,7 @@ Sub initTetrominoes()
         .matrix(4, 3) = 1
         .width = 4
         .height = 4
-        .Color = RGB(0, 255, 255)
+        .color = RGB(0, 255, 255)
     End With
 
     With I360
@@ -101,7 +101,7 @@ Sub initTetrominoes()
         .matrix(2, 4) = 1
         .width = 4
         .height = 4
-        .Color = RGB(0, 255, 255)
+        .color = RGB(0, 255, 255)
     End With
 
     With Iobr
@@ -118,7 +118,7 @@ Sub initTetrominoes()
         .matrix(3, 2) = 1
         .width = 4
         .height = 4
-        .Color = RGB(255, 0, 255)
+        .color = RGB(255, 0, 255)
     End With
 
     With T90
@@ -128,7 +128,7 @@ Sub initTetrominoes()
         .matrix(2, 3) = 1
         .width = 4
         .height = 4
-        .Color = RGB(255, 0, 255)
+        .color = RGB(255, 0, 255)
     End With
 
     With T270
@@ -138,7 +138,7 @@ Sub initTetrominoes()
         .matrix(2, 3) = 1
         .width = 4
         .height = 4
-        .Color = RGB(255, 0, 255)
+        .color = RGB(255, 0, 255)
     End With
 
     With T360
@@ -148,7 +148,7 @@ Sub initTetrominoes()
         .matrix(3, 2) = 1
         .width = 4
         .height = 4
-        .Color = RGB(255, 0, 255)
+        .color = RGB(255, 0, 255)
     End With
 
     With Tobr
@@ -166,7 +166,7 @@ Sub initTetrominoes()
         .matrix(4, 2) = 1
         .width = 4
         .height = 4
-        .Color = RGB(0, 0, 255)
+        .color = RGB(0, 0, 255)
     End With
 
     With J90
@@ -177,7 +177,7 @@ Sub initTetrominoes()
         .matrix(3, 4) = 1
         .width = 4
         .height = 4
-        .Color = RGB(0, 0, 255)
+        .color = RGB(0, 0, 255)
     End With
 
     With J270
@@ -188,7 +188,7 @@ Sub initTetrominoes()
         .matrix(1, 3) = 1
         .width = 4
         .height = 4
-        .Color = RGB(0, 0, 255)
+        .color = RGB(0, 0, 255)
     End With
 
     With J360
@@ -199,7 +199,7 @@ Sub initTetrominoes()
         .matrix(3, 4) = 1
         .width = 4
         .height = 4
-        .Color = RGB(0, 0, 255)
+        .color = RGB(0, 0, 255)
     End With
 
     With Jobr
@@ -217,7 +217,7 @@ Sub initTetrominoes()
         .matrix(4, 3) = 1
         .width = 4
         .height = 4
-        .Color = RGB(255, 129, 0)
+        .color = RGB(255, 129, 0)
     End With
 
     With L90
@@ -228,7 +228,7 @@ Sub initTetrominoes()
         .matrix(2, 4) = 1
         .width = 4
         .height = 4
-        .Color = RGB(255, 129, 0)
+        .color = RGB(255, 129, 0)
     End With
 
     With L270
@@ -239,7 +239,7 @@ Sub initTetrominoes()
         .matrix(4, 3) = 1
         .width = 4
         .height = 4
-        .Color = RGB(255, 129, 0)
+        .color = RGB(255, 129, 0)
     End With
 
     With L360
@@ -250,7 +250,7 @@ Sub initTetrominoes()
         .matrix(2, 4) = 1
         .width = 4
         .height = 4
-        .Color = RGB(255, 129, 0)
+        .color = RGB(255, 129, 0)
     End With
 
     With Lobr
@@ -267,7 +267,7 @@ Sub initTetrominoes()
         .matrix(2, 2) = 1
         .width = 4
         .height = 4
-        .Color = RGB(0, 255, 0)
+        .color = RGB(0, 255, 0)
     End With
 
     With S90
@@ -277,7 +277,7 @@ Sub initTetrominoes()
         .matrix(3, 2) = 1
         .width = 4
         .height = 4
-        .Color = RGB(0, 255, 0)
+        .color = RGB(0, 255, 0)
     End With
 
     With S270
@@ -287,7 +287,7 @@ Sub initTetrominoes()
         .matrix(3, 2) = 1
         .width = 4
         .height = 4
-        .Color = RGB(0, 255, 0)
+        .color = RGB(0, 255, 0)
     End With
 
     With S360
@@ -297,7 +297,7 @@ Sub initTetrominoes()
         .matrix(3, 2) = 1
         .width = 4
         .height = 4
-        .Color = RGB(0, 255, 0)
+        .color = RGB(0, 255, 0)
     End With
 
     With Sobr
@@ -314,7 +314,7 @@ Sub initTetrominoes()
         .matrix(2, 3) = 1
         .width = 4
         .height = 4
-        .Color = RGB(255, 0, 0)
+        .color = RGB(255, 0, 0)
     End With
 
     With Z90
@@ -324,7 +324,7 @@ Sub initTetrominoes()
         .matrix(3, 1) = 1
         .width = 4
         .height = 4
-        .Color = RGB(255, 0, 0)
+        .color = RGB(255, 0, 0)
     End With
 
     With Z270
@@ -334,7 +334,7 @@ Sub initTetrominoes()
         .matrix(3, 3) = 1
         .width = 4
         .height = 4
-        .Color = RGB(255, 0, 0)
+        .color = RGB(255, 0, 0)
     End With
 
     With Z360
@@ -344,7 +344,7 @@ Sub initTetrominoes()
         .matrix(3, 1) = 1
         .width = 4
         .height = 4
-        .Color = RGB(255, 0, 0)
+        .color = RGB(255, 0, 0)
     End With
 
     With Zobr
