@@ -24,5 +24,3 @@ Private Sub UserForm_Initialize()
         .Top = 162
     End With
 End Sub
-
-

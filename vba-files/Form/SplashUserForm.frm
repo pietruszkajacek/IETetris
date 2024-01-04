@@ -14,6 +14,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
+
 Option Explicit
 
 Private Sub UserForm_Initialize()
@@ -33,4 +34,3 @@ Private Sub UserForm_Activate()
     Application.Wait (Now + TimeValue("00:00:01"))
     Unload SplashUserForm
 End Sub
-

@@ -34,7 +34,6 @@ Option Explicit
       ByVal nIndex As Long) As Long
 #End If
 
-
 Sub startTimer()
   If gameStarted = True Then
     If TimerID <> 0 Then

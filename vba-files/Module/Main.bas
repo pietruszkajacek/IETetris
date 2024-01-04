@@ -20,6 +20,8 @@ Public tetroCounter As Long
 Public Const MAX_LEVEL = 5
 Public delayLevels(1 To MAX_LEVEL) As Integer
 
+Public statTetrominoes(1 To NUMBER_OF_TETROMINOES) As Long
+
 Sub initDelayLevels()
     delayLevels(1) = 10
     delayLevels(2) = 8
@@ -141,16 +143,31 @@ Sub Info(ByVal r As Byte, ByVal c As Byte)
     Cells(r + 4, c) = tetroCounter
 End Sub
 
-Sub Info2()
-    MainUserForm.TetroX = TetrominoX
-    MainUserForm.TetroY = tetrominoY
-    MainUserForm.TetroNr = tetrominoNr
-    MainUserForm.TetroRot = tetrominoRot
-    MainUserForm.delay = delay
-    MainUserForm.completeLines = completeLines
-    MainUserForm.level = level
-    MainUserForm.delayLevel = delayLevels(level)
-    MainUserForm.tetroCounter = tetroCounter
+Sub Info2(frm As UserForm)
+    With frm
+        .TetroX = TetrominoX
+        .TetroX = TetrominoX
+        .TetroY = tetrominoY
+        .TetroNr = tetrominoNr
+        .TetroRot = tetrominoRot
+        .delay = delay
+        .completeLines = completeLines
+        .level = level
+        .delayLevel = delayLevels(level)
+        .tetroCounter = tetroCounter
+    End With
+End Sub
+
+Sub statTetro(frm As UserForm)
+    With frm
+        .statOLabel.Caption = statTetrominoes(1)
+        .statILabel.Caption = statTetrominoes(2)
+        .statTLabel.Caption = statTetrominoes(3)
+        .statJLabel.Caption = statTetrominoes(4)
+        .statLLabel.Caption = statTetrominoes(5)
+        .statSLabel.Caption = statTetrominoes(6)
+        .statZLabel.Caption = statTetrominoes(7)
+    End With
 End Sub
 
 Function completeLine(ByVal r As Byte)
@@ -199,6 +216,8 @@ Sub updateGame()
 
         nextTetrominoNr = randomNumber(NUMBER_OF_TETROMINOES, 1)
         nextTetrominoRot = randomNumber(4, 1)
+
+        statTetrominoes(tetrominoNr) = statTetrominoes(tetrominoNr) + 1
 
         TetrominoX = 1
         tetrominoY = 1
@@ -262,11 +281,14 @@ Sub mainLoop()
         prevTetroNr = tetrominoNr
 
         'Info 22, 1
-        Info2
+        Info2 MainUserForm
+        statTetro MainUserForm
         delay = delay + 1
     Else
         stopTimer
-        MsgBox "Koniec GRY!"
+        MsgBox "KONIEC GRY!", _
+            VBA.vbMsgBoxStyle.vbInformation, _
+            "IE Tetris"
         Keys.freeKeys
         'InfoUserForm.Hide
         'MainUserForm.show
@@ -294,9 +316,11 @@ Sub startGame()
     nextTetrominoNr = randomNumber(NUMBER_OF_TETROMINOES, 1)
     nextTetrominoRot = randomNumber(4, 1)
 
+    Erase statTetrominoes
+    statTetrominoes(tetrominoNr) = statTetrominoes(tetrominoNr) + 1
+
     newCycle = True
     completeLines = 0
- 
     endGame = False
     gameStarted = True
     startTimer
