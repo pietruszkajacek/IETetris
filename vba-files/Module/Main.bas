@@ -36,7 +36,7 @@ Function randomNumber(ByVal upperbound As Integer, ByVal lowerbound As Integer) 
 End Function
 
 Sub resetTetrion()
-    Dim r, c As Byte
+    Dim r As Byte, c As Byte
     For r = 1 To HEIGHT_TETRION
         For c = 1 To WIDTH_TETRION
             Tetrion(r, c) = COLLISION_FREE_COLOR
@@ -45,7 +45,7 @@ Sub resetTetrion()
 End Sub
 
 Sub drawTetrominoOnTetrion()
-    Dim r, c As Integer
+    Dim r As Integer, c As Integer
     Dim tetromino As TetrominoT
     tetromino = Tetrominoes(tetrominoNr).Rotations(tetrominoRot)
 
@@ -60,7 +60,7 @@ End Sub
 
 Sub drawTetrominoOnSheet(ByVal TetroNr As Integer, ByVal TetroRot As Integer, _
                          ByVal color As Long, ByVal TetroY As Integer, ByVal TetroX As Integer)
-    Dim r, c As Integer
+    Dim r As Integer, c As Integer
     Dim tetromino As TetrominoT
     tetromino = Tetrominoes(TetroNr).Rotations(TetroRot)
 
@@ -80,7 +80,7 @@ End Sub
 
 Sub drawRectOnSheet(ByVal width As Integer, ByVal height As Integer, _
                             ByVal Y As Integer, ByVal X As Integer, ByVal color As Long)
-    Dim r, c As Byte
+    Dim r As Byte, c As Byte
     For r = 1 To height
         For c = 1 To width
             Cells(Y + r - 1, X + c - 1).Interior.color = color
@@ -97,7 +97,7 @@ Sub drawBackgroundNextTetro()
 End Sub
 
 Sub drawTetrionOnSheet(ByVal X As Byte, ByVal Y As Byte)
-    Dim r, c As Integer
+    Dim r As Integer, c As Integer
     'Application.ScreenUpdating = False
     For r = 1 To HEIGHT_TETRION
         For c = 1 To WIDTH_TETRION
@@ -108,9 +108,9 @@ Sub drawTetrionOnSheet(ByVal X As Byte, ByVal Y As Byte)
 End Sub
 
 Function checkCollision(ByVal TetroX As Integer, ByVal TetroY As Integer, TetroRot)
-    Dim tetrionX, tetrionY As Integer
+    Dim tetrionX As Integer, tetrionY As Integer
     Dim tetromino As TetrominoT
-    Dim r, c As Integer
+    Dim r As Integer, c As Integer
     tetromino = Tetrominoes(tetrominoNr).Rotations(TetroRot)
     
     For r = 1 To tetromino.height

@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} MainUserForm 
-   Caption         =   "IE Tetris © 2023-2024 Pietruszka J."
-   ClientHeight    =   3900
+   Caption         =   "IE Tetris © 2023-2024 Jacek Pietruszka"
+   ClientHeight    =   5232
    ClientLeft      =   108
    ClientTop       =   456
    ClientWidth     =   8160

@@ -24,22 +24,22 @@ Public Const COLLISION_FREE_COLOR = 16777215 'RGB(255, 255, 255)
 Dim O0 As TetrominoT
 Dim Oobr As TetrominoRotationsT
 
-Dim I0 As TetrominoT, I90 As TetrominoT, I270 As TetrominoT, I360 As TetrominoT
+Dim I0 As TetrominoT, I90 As TetrominoT, I180 As TetrominoT, I270 As TetrominoT
 Dim Iobr As TetrominoRotationsT
 
-Dim T0 As TetrominoT, T90 As TetrominoT, T270 As TetrominoT, T360 As TetrominoT
+Dim T0 As TetrominoT, T90 As TetrominoT, T180 As TetrominoT, T270 As TetrominoT
 Dim Tobr As TetrominoRotationsT
 
-Dim J0 As TetrominoT, J90 As TetrominoT, J270 As TetrominoT, J360 As TetrominoT
+Dim J0 As TetrominoT, J90 As TetrominoT, J180 As TetrominoT, J270 As TetrominoT
 Dim Jobr As TetrominoRotationsT
 
-Dim L0 As TetrominoT, L90 As TetrominoT, L270 As TetrominoT, L360 As TetrominoT
+Dim L0 As TetrominoT, L90 As TetrominoT, L180 As TetrominoT, L270 As TetrominoT
 Dim Lobr As TetrominoRotationsT
 
-Dim S0 As TetrominoT, S90 As TetrominoT, S270 As TetrominoT, S360 As TetrominoT
+Dim S0 As TetrominoT, S90 As TetrominoT, S180 As TetrominoT, S270 As TetrominoT
 Dim Sobr As TetrominoRotationsT
 
-Dim Z0 As TetrominoT, Z90 As TetrominoT, Z270 As TetrominoT, Z360 As TetrominoT
+Dim Z0 As TetrominoT, Z90 As TetrominoT, Z180 As TetrominoT, Z270 As TetrominoT
 Dim Zobr As TetrominoRotationsT
 
 Public Tetrominoes(1 To NUMBER_OF_TETROMINOES) As TetrominoRotationsT
@@ -84,7 +84,7 @@ Sub initTetrominoes()
         .color = RGB(0, 255, 255)
     End With
 
-    With I270
+    With I180
         .matrix(1, 3) = 1
         .matrix(2, 3) = 1
         .matrix(3, 3) = 1
@@ -94,7 +94,7 @@ Sub initTetrominoes()
         .color = RGB(0, 255, 255)
     End With
 
-    With I360
+    With I270
         .matrix(2, 1) = 1
         .matrix(2, 2) = 1
         .matrix(2, 3) = 1
@@ -107,8 +107,8 @@ Sub initTetrominoes()
     With Iobr
         .Rotations(1) = I0
         .Rotations(2) = I90
-        .Rotations(3) = I270
-        .Rotations(4) = I360
+        .Rotations(3) = I180
+        .Rotations(4) = I270
     End With
 
     With T0
@@ -131,7 +131,7 @@ Sub initTetrominoes()
         .color = RGB(255, 0, 255)
     End With
 
-    With T270
+    With T180
         .matrix(1, 2) = 1
         .matrix(2, 1) = 1
         .matrix(2, 2) = 1
@@ -141,7 +141,7 @@ Sub initTetrominoes()
         .color = RGB(255, 0, 255)
     End With
 
-    With T360
+    With T270
         .matrix(1, 2) = 1
         .matrix(2, 1) = 1
         .matrix(2, 2) = 1
@@ -154,8 +154,8 @@ Sub initTetrominoes()
     With Tobr
         .Rotations(1) = T0
         .Rotations(2) = T90
-        .Rotations(3) = T270
-        .Rotations(4) = T360
+        .Rotations(3) = T180
+        .Rotations(4) = T270
     End With
 
     With J0
@@ -180,7 +180,7 @@ Sub initTetrominoes()
         .color = RGB(0, 0, 255)
     End With
 
-    With J270
+    With J180
         .matrix(1, 2) = 1
         .matrix(2, 2) = 1
         .matrix(3, 2) = 1
@@ -191,7 +191,7 @@ Sub initTetrominoes()
         .color = RGB(0, 0, 255)
     End With
 
-    With J360
+    With J270
         .matrix(2, 1) = 1
         .matrix(3, 1) = 1
         .matrix(3, 2) = 1
@@ -205,8 +205,8 @@ Sub initTetrominoes()
     With Jobr
         .Rotations(1) = J0
         .Rotations(2) = J90
-        .Rotations(3) = J270
-        .Rotations(4) = J360
+        .Rotations(3) = J180
+        .Rotations(4) = J270
     End With
 
     With L0
@@ -231,7 +231,7 @@ Sub initTetrominoes()
         .color = RGB(255, 129, 0)
     End With
 
-    With L270
+    With L180
         .matrix(1, 2) = 1
         .matrix(1, 3) = 1
         .matrix(2, 3) = 1
@@ -242,7 +242,7 @@ Sub initTetrominoes()
         .color = RGB(255, 129, 0)
     End With
 
-    With L360
+    With L270
         .matrix(3, 1) = 1
         .matrix(2, 1) = 1
         .matrix(2, 2) = 1
@@ -256,8 +256,8 @@ Sub initTetrominoes()
     With Lobr
         .Rotations(1) = L0
         .Rotations(2) = L90
-        .Rotations(3) = L270
-        .Rotations(4) = L360
+        .Rotations(3) = L180
+        .Rotations(4) = L270
     End With
 
     With S0
@@ -280,7 +280,7 @@ Sub initTetrominoes()
         .color = RGB(0, 255, 0)
     End With
 
-    With S270
+    With S180
         .matrix(2, 2) = 1
         .matrix(2, 3) = 1
         .matrix(3, 1) = 1
@@ -290,7 +290,7 @@ Sub initTetrominoes()
         .color = RGB(0, 255, 0)
     End With
 
-    With S360
+    With S270
         .matrix(1, 1) = 1
         .matrix(2, 1) = 1
         .matrix(2, 2) = 1
@@ -303,8 +303,8 @@ Sub initTetrominoes()
     With Sobr
         .Rotations(1) = S0
         .Rotations(2) = S90
-        .Rotations(3) = S270
-        .Rotations(4) = S360
+        .Rotations(3) = S180
+        .Rotations(4) = S270
     End With
 
     With Z0
@@ -327,7 +327,7 @@ Sub initTetrominoes()
         .color = RGB(255, 0, 0)
     End With
 
-    With Z270
+    With Z180
         .matrix(2, 1) = 1
         .matrix(2, 2) = 1
         .matrix(3, 2) = 1
@@ -337,7 +337,7 @@ Sub initTetrominoes()
         .color = RGB(255, 0, 0)
     End With
 
-    With Z360
+    With Z270
         .matrix(1, 2) = 1
         .matrix(2, 1) = 1
         .matrix(2, 2) = 1
@@ -350,8 +350,8 @@ Sub initTetrominoes()
     With Zobr
         .Rotations(1) = Z0
         .Rotations(2) = Z90
-        .Rotations(3) = Z270
-        .Rotations(4) = Z360
+        .Rotations(3) = Z180
+        .Rotations(4) = Z270
     End With
 
     Tetrominoes(1) = Oobr
