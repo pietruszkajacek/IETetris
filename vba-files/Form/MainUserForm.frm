@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} MainUserForm 
    Caption         =   "IE Tetris © 2023-2024 Jacek Pietruszka"
-   ClientHeight    =   5232
+   ClientHeight    =   5892
    ClientLeft      =   108
    ClientTop       =   456
-   ClientWidth     =   8160
+   ClientWidth     =   8400.001
    OleObjectBlob   =   "MainUserForm.frx":0000
    ShowModal       =   0   'False
    StartUpPosition =   1  'CenterOwner
