@@ -2,13 +2,13 @@ Attribute VB_Name = "Keys"
 Option Explicit
 
 Sub bindKeys()
-    Application.ScreenUpdating = False
+    'Application.ScreenUpdating = False
     Application.OnKey "{LEFT}", "tetroLeft"
     Application.OnKey "{UP}", "tetroRotate"
     Application.OnKey "{DOWN}", "tetroDown"
     Application.OnKey "{RIGHT}", "tetroRight"
     Application.OnKey "{ESC}", "StopGame"
-    Application.ScreenUpdating = True
+    'Application.ScreenUpdating = True
     Application.Calculation = xlCalculationManual
     Application.EnableEvents = False
 End Sub
@@ -47,10 +47,12 @@ End Sub
 
 Private Sub tetroDown()
     If gameStarted = True Then
-        While Not checkCollision(TetrominoX, tetrominoY + 1, tetrominoRot)
-            tetrominoY = tetrominoY + 1
-        Wend
-        delay = 0
+        If Not checkCollision(TetrominoX, tetrominoY + 1, tetrominoRot) Then
+            While Not checkCollision(TetrominoX, tetrominoY + 1, tetrominoRot)
+                tetrominoY = tetrominoY + 1
+            Wend
+            delay = 0
+        End If
     End If
 End Sub
 
@@ -60,7 +62,7 @@ Sub freeKeys()
     Application.OnKey "{DOWN}"
     Application.OnKey "{RIGHT}"
     Application.OnKey "{ESC}"
-    Application.ScreenUpdating = True
+    'Application.ScreenUpdating = True
     Application.Calculation = xlCalculationAutomatic
     Application.EnableEvents = True
 End Sub

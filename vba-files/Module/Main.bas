@@ -286,12 +286,15 @@ Sub mainLoop()
         delay = delay + 1
     Else
         stopTimer
+        freeKeys
+
         MsgBox "KONIEC GRY!", _
             VBA.vbMsgBoxStyle.vbInformation, _
             "IE Tetris"
-        Keys.freeKeys
-        'InfoUserForm.Hide
-        'MainUserForm.show
+
+        If MsgBox("Dopisujemy", vbYesNo Or vbDefaultButton1, "Lista najlepszych graczy") = vbYes Then
+            InputBox ("Please enter the name of the file : ")
+        End If
     End If
 End Sub
 
@@ -310,6 +313,7 @@ Sub startGame()
     tetrominoY = 1
     TetrominoX = 1
     delay = 0
+
     tetrominoNr = randomNumber(NUMBER_OF_TETROMINOES, 1)
     tetrominoRot = randomNumber(4, 1)
 

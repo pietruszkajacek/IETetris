@@ -144,7 +144,7 @@ End Function
 Private Function createOutputMessage(inputValue) As String
 
      Dim typeOfVar As Integer
-     Dim response As String
+     Dim Response As String
 
      typeOfVar = VarType(inputValue)
 
@@ -153,62 +153,62 @@ Private Function createOutputMessage(inputValue) As String
      Err.Source = "createOutputMessage"
      Select Case typeOfVar
       Case STRING_TYPE
-          response = "String: " & inputValue
+          Response = "String: " & inputValue
       Case INTEGER_TYPE
-          response = "Integer: " & CStr(inputValue)
+          Response = "Integer: " & CStr(inputValue)
       Case LONG_TYPE
-          response = "Long: " & CStr(inputValue)
+          Response = "Long: " & CStr(inputValue)
       Case SINGLE_TYPE
-          response = "Single: " & CStr(inputValue)
+          Response = "Single: " & CStr(inputValue)
       Case DOUBLE_TYPE
-          response = "Double: " & CStr(inputValue)
+          Response = "Double: " & CStr(inputValue)
       Case CURRENCY_TYPE
-          response = "Currenty: " & CStr(inputValue)
+          Response = "Currenty: " & CStr(inputValue)
       Case DATE_TYPE
-          response = "Date: " & CStr(inputValue)
+          Response = "Date: " & CStr(inputValue)
       Case DECIMAL_TYPE
-          response = "Decimal: " & CStr(inputValue)
+          Response = "Decimal: " & CStr(inputValue)
       Case LONG_LONG_TYPE
-          response = "LongLong: " & CStr(inputValue)
+          Response = "LongLong: " & CStr(inputValue)
       Case BOOLEAN_TYPE
-          response = "Boolean: " & CStr(inputValue)
+          Response = "Boolean: " & CStr(inputValue)
       Case ARRAY_TYPE
-          response = makeArrayTypeMessage(inputValue)
+          Response = makeArrayTypeMessage(inputValue)
       Case EMPTY_TYPE
-          response = "Empty: "
+          Response = "Empty: "
       Case OBJECT_TYPE
-          response = "Object: " & TypeName(inputValue)
+          Response = "Object: " & TypeName(inputValue)
       Case NULL_TYPE
-          response = "Null: "
+          Response = "Null: "
       Case ERROR_TYPE
-          response = "Error: "
+          Response = "Error: "
       Case VARIANT_TYPE
-          response = "Variant: "
+          Response = "Variant: "
       Case DATA_OBJECT_TYPE
-          response = "Data Object: " & TypeName(inputValue)
+          Response = "Data Object: " & TypeName(inputValue)
       Case Else
-          response = "Type Not Supported yet please inform xvba developer "
+          Response = "Type Not Supported yet please inform xvba developer "
           Debug.Print typeOfVar
           Debug.Print inputValue
 
      End Select
 
 
-     createOutputMessage = response
+     createOutputMessage = Response
 
 End Function
 
 
 Private Function makeArrayTypeMessage(inputValue) As String
      Dim nextItem As Variant
-     Dim response As String
+     Dim Response As String
      Dim message As String
 
      For Each nextItem In inputValue
           message = createOutputMessage(nextItem)
-          response = response & "                              [ " & message & " ]" & vbCrLf
+          Response = Response & "                              [ " & message & " ]" & vbCrLf
      Next nextItem
-     makeArrayTypeMessage = "Array: " & vbCrLf & response
+     makeArrayTypeMessage = "Array: " & vbCrLf & Response
 End Function
 
 

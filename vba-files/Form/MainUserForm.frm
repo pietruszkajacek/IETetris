@@ -16,6 +16,10 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
 
+Private Sub CreditsButton_Click()
+   InfoUserForm.show
+End Sub
+
 Private Sub EndGameButton_Click()
     Main.stopGame
 End Sub
