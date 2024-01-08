@@ -19,8 +19,9 @@ Public tetroCounter As Long
 
 Public Const MAX_LEVEL = 5
 Public delayLevels(1 To MAX_LEVEL) As Integer
-
 Public statTetrominoes(1 To NUMBER_OF_TETROMINOES) As Long
+
+Public Const tetrisSheet = "IE Tetris"
 
 Sub initDelayLevels()
     delayLevels(1) = 10
@@ -67,7 +68,7 @@ Sub drawTetrominoOnSheet(ByVal TetroNr As Integer, ByVal TetroRot As Integer, _
     For r = 1 To tetromino.height
         For c = 1 To tetromino.width
             If tetromino.matrix(r, c) = 1 Then
-                Cells(r + TetroY - 1, TetroX + c - 1).Interior.color = color
+                Worksheets(tetrisSheet).Cells(r + TetroY - 1, TetroX + c - 1).Interior.color = color
             End If
         Next c
     Next r
@@ -83,7 +84,7 @@ Sub drawRectOnSheet(ByVal width As Integer, ByVal height As Integer, _
     Dim r As Byte, c As Byte
     For r = 1 To height
         For c = 1 To width
-            Cells(Y + r - 1, X + c - 1).Interior.color = color
+            Worksheets(tetrisSheet).Cells(Y + r - 1, X + c - 1).Interior.color = color
         Next c
     Next r
 End Sub
@@ -101,7 +102,7 @@ Sub drawTetrionOnSheet(ByVal X As Byte, ByVal Y As Byte)
     'Application.ScreenUpdating = False
     For r = 1 To HEIGHT_TETRION
         For c = 1 To WIDTH_TETRION
-            Cells(Y_TETRION + r - 1, X_TETRION + c - 1).Interior.color = Tetrion(r, c)
+            Worksheets(tetrisSheet).Cells(Y_TETRION + r - 1, X_TETRION + c - 1).Interior.color = Tetrion(r, c)
         Next c
     Next r
     'Application.ScreenUpdating = True
@@ -219,7 +220,7 @@ Sub updateGame()
 
         statTetrominoes(tetrominoNr) = statTetrominoes(tetrominoNr) + 1
 
-        TetrominoX = 1
+        TetrominoX = 5
         tetrominoY = 1
         newCycle = True
         tetroCounter = tetroCounter + 1
@@ -291,9 +292,12 @@ Sub mainLoop()
         MsgBox "KONIEC GRY!", _
             VBA.vbMsgBoxStyle.vbInformation, _
             "IE Tetris"
-
-        If MsgBox("Dopisujemy", vbYesNo Or vbDefaultButton1, "Lista najlepszych graczy") = vbYes Then
-            InputBox ("Please enter the name of the file : ")
+        
+        If completeLines > 0 Then
+            If MsgBox("Tw�j wynik pozwala na dopisanie do listy najlepszych." & vbCrLf & _
+                "Czy chcesz to zrobi�?", vbYesNo Or vbDefaultButton1, "Lista najlepszych graczy") = vbYes Then
+                BestPlayersUserForm.show
+            End If
         End If
     End If
 End Sub
@@ -311,7 +315,7 @@ Sub startGame()
 
     Keys.bindKeys
     tetrominoY = 1
-    TetrominoX = 1
+    TetrominoX = 5
     delay = 0
 
     tetrominoNr = randomNumber(NUMBER_OF_TETROMINOES, 1)
