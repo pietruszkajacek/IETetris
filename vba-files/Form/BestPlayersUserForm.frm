@@ -14,17 +14,24 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
-
 Dim saved As Boolean
 Dim FRow As Range
 
-Private Sub SaveButton_Click()
-    Worksheets("Najlepsi").Cells(FRow.Row, 2) = NickTextBox.Text
-    Application.DisplayAlerts = False
-    ThisWorkbook.Save
-    Application.DisplayAlerts = True
-    saved = True
+Private Sub CancelButton_Click()
     Unload Me
+End Sub
+
+Private Sub SaveButton_Click()
+    If NickTextBox.Text <> "" Then
+        Worksheets("Najlepsi").Cells(FRow.Row, 2) = NickTextBox.Text
+        Application.DisplayAlerts = False
+        ThisWorkbook.Save
+        Application.DisplayAlerts = True
+        saved = True
+        Unload Me
+    Else
+        MsgBox "Pole nie mo¿e byæ puste...", vbOKOnly Or vbExclamation, "Uzupe³nij pole..."
+    End If
 End Sub
 
 Private Sub UserForm_Initialize()

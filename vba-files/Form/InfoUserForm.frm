@@ -20,11 +20,5 @@ Private Sub CommandButton1_Click()
 End Sub
 
 Private Sub UserForm_Initialize()
-    'HideTitleBar Me
     SystemButtonSettings Me, False
-
-    With InfoUserForm
-        .Left = 271
-        .Top = 162
-    End With
 End Sub

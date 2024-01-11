@@ -31,6 +31,6 @@ Private Sub UserForm_Activate()
     Application.Wait (Now + TimeValue("00:00:01"))
     SplashUserForm.Label1.Caption = "Opening..."
     SplashUserForm.Repaint
-    Application.Wait (Now + TimeValue("00:00:01"))
+    Application.Wait (Now + TimeValue("00:00:03"))
     Unload SplashUserForm
 End Sub
